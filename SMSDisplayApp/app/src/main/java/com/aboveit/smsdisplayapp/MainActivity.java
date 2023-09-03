@@ -200,10 +200,27 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
             }
         };
         this.registerReceiver(SMSReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(Constants.RECEIVER_REGISTERED_KEY, true);
+        editor.apply();
     }
 
     @Override
     protected void onResume() {
+        if (Utility.checkReadContactsPermission(this)) {
+            if (!sharedPref.getBoolean(Constants.ALLOW_READ_CONTACTS_KEY, false)) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean(Constants.ALLOW_READ_CONTACTS_KEY, true);
+                editor.apply();
+            }
+        } else {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(Constants.ALLOW_READ_CONTACTS_KEY, false);
+            editor.apply();
+        }
+        if (Utility.checkReceivePermission(this) && !sharedPref.getBoolean(Constants.RECEIVER_REGISTERED_KEY, false)) {
+            initReceiver();
+        }
         Log.d(TAG, "onResume() >> allowReadContacts: " + sharedPref.getBoolean(Constants.ALLOW_READ_CONTACTS_KEY, false));
         super.onResume();
     }
@@ -213,13 +230,22 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
         Log.d(TAG, "onStop()");
         if (SMSReceiver != null) {
             this.unregisterReceiver(SMSReceiver);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(Constants.RECEIVER_REGISTERED_KEY, false);
+            editor.apply();
         }
         super.onStop();
     }
 
     @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy()");
+        super.onDestroy();
+    }
+
+    @Override
     public void onItemClick(String sender, String message, Long time) {
-        senderDetail.setText(sender);
+        senderDetail.setText(Utility.getContactName(sender, this, false));
         messageDetail.setText(message);
         timeDetail.setText(Utility.formatTimestamp(time, Constants.DETAILED_TIME_PATTERN));
         detailLayout.setVisibility(View.VISIBLE);
