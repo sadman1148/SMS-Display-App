@@ -1,9 +1,6 @@
-package com.aboveit.smsdisplayapp;
-
-import static androidx.core.content.ContextCompat.startActivity;
+package com.aboveit.smsdisplayapp.adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +8,20 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aboveit.smsdisplayapp.R;
+import com.aboveit.smsdisplayapp.models.Message;
+import com.aboveit.smsdisplayapp.utils.Constants;
+import com.aboveit.smsdisplayapp.utils.ItemClickListerner;
+import com.aboveit.smsdisplayapp.utils.Utility;
+
 import java.util.List;
 
 public class SMSAdapter extends RecyclerView.Adapter<SMSAdapter.ViewHolder> {
-    private List<SMSMessage> messages;
+    private List<Message> messages;
     private Context context;
     private ItemClickListerner itemClickListerner;
 
-    public SMSAdapter(List<SMSMessage> messages, ItemClickListerner itemClickListerner) {
+    public SMSAdapter(List<Message> messages, ItemClickListerner itemClickListerner) {
         this.messages = messages;
         this.itemClickListerner = itemClickListerner;
     }
@@ -32,7 +35,7 @@ public class SMSAdapter extends RecyclerView.Adapter<SMSAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        SMSMessage message = messages.get(position);
+        Message message = messages.get(position);
         holder.senderTextView.setText(Utility.getContactName(message.getSender(), context, false));
         holder.messageTextView.setText(message.getMessage());
         holder.timeTextView.setText(Utility.formatTimestamp(message.getTimestamp(), Constants.TIME_PATTERN));

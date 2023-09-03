@@ -1,11 +1,11 @@
-package com.aboveit.smsdisplayapp;
+package com.aboveit.smsdisplayapp.models;
 
-public class SMSMessage {
+public class Message {
     private String sender;
     private String message;
     private long timestamp;
 
-    public SMSMessage(String sender, String message, long timestamp) {
+    public Message(String sender, String message, long timestamp) {
         this.sender = sender;
         this.message = message;
         this.timestamp = timestamp;

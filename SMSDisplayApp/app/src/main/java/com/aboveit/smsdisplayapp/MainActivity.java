@@ -25,6 +25,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aboveit.smsdisplayapp.adapters.SMSAdapter;
+import com.aboveit.smsdisplayapp.models.Message;
+import com.aboveit.smsdisplayapp.utils.Constants;
+import com.aboveit.smsdisplayapp.utils.ItemClickListerner;
+import com.aboveit.smsdisplayapp.utils.Utility;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
     private LinearLayoutCompat detailLayout;
     private ImageView blankImage, crossImage;
     private SMSAdapter adapter;
-    private List<SMSMessage> messages;
+    private List<Message> messages;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private final String TAG = "MainActivity";
     private BroadcastReceiver SMSReceiver;
@@ -153,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
                     @SuppressLint("Range") String sender = cursor.getString(cursor.getColumnIndex(Telephony.Sms.ADDRESS));
                     @SuppressLint("Range") String message = cursor.getString(cursor.getColumnIndex(Telephony.Sms.BODY));
                     @SuppressLint("Range") long timestamp = cursor.getLong(cursor.getColumnIndex(Telephony.Sms.DATE));
-                    messages.add(new SMSMessage(sender, message, timestamp));
+                    messages.add(new Message(sender, message, timestamp));
                 } while (cursor.moveToNext());
             }
             cursor.close();

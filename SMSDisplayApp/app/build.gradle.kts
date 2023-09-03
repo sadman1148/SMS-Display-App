@@ -42,6 +42,4 @@ dependencies {
 
     // swipe-to-refresh
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
-
-    implementation("com.googlecode.libphonenumber:libphonenumber:8.7.0")
 }

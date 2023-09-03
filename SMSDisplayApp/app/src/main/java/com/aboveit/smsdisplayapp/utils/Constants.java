@@ -1,8 +1,6 @@
-package com.aboveit.smsdisplayapp;
+package com.aboveit.smsdisplayapp.utils;
 
 public class Constants {
-    public static String DARK_MODE = "Dark";
-    public static String LIGHT_MODE = "Light";
     public static String TIME_PATTERN = "hh:mm aa";
     public static String DETAILED_TIME_PATTERN = "yyyy MMM dd - hh:mm aa";
     public static String INIT_LAUNCH_KEY = "initial_launch";
