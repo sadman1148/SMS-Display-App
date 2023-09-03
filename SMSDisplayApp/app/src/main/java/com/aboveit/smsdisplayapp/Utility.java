@@ -3,6 +3,7 @@ package com.aboveit.smsdisplayapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,8 +19,6 @@ import java.util.Locale;
 public class Utility {
 
     private static final String TAG = "Utility";
-    public static boolean allowReadContacts = false;
-    public static boolean isFirstLaunch = true;
 
     static boolean checkReadPermission(Context context) {
         return (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED);
@@ -45,16 +44,12 @@ public class Utility {
         ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.READ_CONTACTS}, Constants.READ_CONTACTS_PERMISSION_REQUEST_CODE);
     }
 
-//    static void requestPermissions(Activity activity, String[] permissions) {
-//        ActivityCompat.requestPermissions(activity, permissions, Constants.PERMISSION_REQUEST_CODE);
-//    }
-
-    static String formatTimestamp(long timestampMillis) {
-        return new SimpleDateFormat(Constants.TIME_PATTERN, Locale.getDefault()).format(timestampMillis);
+    static String formatTimestamp(long timestampMillis, String pattern) {
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(timestampMillis);
     }
 
     static String getContactName(String phoneNumber, Context context, boolean isSubStringed) {
-        if (allowReadContacts) {
+        if (context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE).getBoolean(Constants.ALLOW_READ_CONTACTS_KEY, false)) {
             if ((int) phoneNumber.charAt(0) == 43 || ((int) phoneNumber.charAt(0) > 47 && (int) phoneNumber.charAt(0) < 58)) {
                 Log.d(TAG, "number: " + phoneNumber + " isSubStringed: " + isSubStringed);
                 if (!isSubStringed) {
