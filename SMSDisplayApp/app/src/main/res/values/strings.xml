@@ -3,4 +3,5 @@
     <string name="messages">Messages</string>
     <string name="no_messages">You do not have any messages</string>
     <string name="no_permission_text">The app does not have permission to view messages!</string>
+    <string name="not_permitted">Not permitted to access texts</string>
 </resources>

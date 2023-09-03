@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = this.getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recycler);
         blankImage = findViewById(R.id.blankImg);
@@ -68,11 +67,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
         adapter = new SMSAdapter(messages, this);
         recyclerView.setAdapter(adapter);
         if (sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
-            editor.putBoolean(Constants.INIT_LAUNCH_KEY, false);
-            editor.apply();
             Utility.requestReadContactsPermission(this);
-        } else {
-            handleFetchCall();
         }
         crossImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
         if (Utility.checkReadPermission(this)) {
             fetchSMS();
         } else {
-            Toast.makeText(this, "Not permitted to access texts", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.not_permitted), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -120,10 +115,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
                 Utility.requestReceivePermission(this);
                 fetchSMS();
             } else {
-                blankImage.setImageResource(R.drawable.no_permission);
-                blankImage.setVisibility(View.VISIBLE);
-                blankText.setText(R.string.no_permission_text);
-                blankText.setVisibility(View.VISIBLE);
+                initNoReadPermissionUI();
                 Log.d(TAG, "READ_SMS permission denied");
             }
         } else if (requestCode == Constants.RECEIVE_PERMISSION_REQUEST_CODE) {
@@ -145,6 +137,13 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
             }
             Utility.requestReadPermission(this);
         }
+    }
+
+    public void initNoReadPermissionUI() {
+        blankImage.setImageResource(R.drawable.no_permission);
+        blankImage.setVisibility(View.VISIBLE);
+        blankText.setText(R.string.no_permission_text);
+        blankText.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -218,6 +217,11 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
             editor.putBoolean(Constants.ALLOW_READ_CONTACTS_KEY, false);
             editor.apply();
         }
+        if (Utility.checkReadPermission(this) && !sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
+            handleFetchCall();
+        } else {
+            initNoReadPermissionUI();
+        }
         if (Utility.checkReceivePermission(this) && !sharedPref.getBoolean(Constants.RECEIVER_REGISTERED_KEY, false)) {
             initReceiver();
         }
@@ -228,6 +232,11 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
     @Override
     protected void onStop() {
         Log.d(TAG, "onStop()");
+        if (sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean(Constants.INIT_LAUNCH_KEY, false);
+            editor.apply();
+        }
         if (SMSReceiver != null) {
             this.unregisterReceiver(SMSReceiver);
             SharedPreferences.Editor editor = sharedPref.edit();
