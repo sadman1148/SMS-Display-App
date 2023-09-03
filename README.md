@@ -23,6 +23,7 @@ The **SMS Display App** is a simple text viewer app like your built it SMS app, 
 <img src="https://github.com/sadman1148/SMS-Display-App/assets/71433330/3b6cac00-9539-46d1-ba3b-7fe364b17607" width="200" alt="Toast">
 <img src="https://github.com/sadman1148/SMS-Display-App/assets/71433330/e2bc200c-8c71-4bf6-bd69-a89b4dc186e9" width="200" alt="Toast with READ_CONTACTS">
 <img src="https://github.com/sadman1148/SMS-Display-App/assets/71433330/5bc68981-2c02-43cf-b806-15dfa0d8897b" width="200" alt="Detailed SMS with READ_CONTACTS and Light Theme">
+<img src="https://github.com/sadman1148/SMS-Display-App/assets/71433330/0e0f3489-9c1e-482c-a13a-cc64c33f5fba" width="200" alt="No Permission UI">
 
 ## Getting Started
 These instructions will help you set up and run the project on your local machine for development and testing purposes.
