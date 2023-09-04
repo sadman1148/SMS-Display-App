@@ -37,9 +37,9 @@
                     android:textSize="@dimen/sp_25" />
 
                 <ImageView
-                    android:src="@drawable/aboveit"
                     android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30" />
+                    android:layout_height="@dimen/dp_30"
+                    android:src="@drawable/aboveit" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -70,10 +70,10 @@
 
         <TextView
             android:id="@+id/blanktext"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_350"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_5"
-            android:text="@string/no_messages"
+            android:gravity="center"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,19 +99,17 @@
 
                 <TextView
                     android:id="@+id/time"
-                    android:layout_weight="1"
                     android:layout_width="@dimen/dp_0"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/cross"
-                    android:src="@drawable/cross"
                     android:layout_width="@dimen/dp_20"
-                    android:layout_height="@dimen/dp_20"/>
+                    android:layout_height="@dimen/dp_20"
+                    android:src="@drawable/cross" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
             <TextView
                 android:id="@+id/sender"

@@ -11,6 +11,7 @@
     <dimen name="dp_40">40dp</dimen>
     <dimen name="dp_50">50dp</dimen>
     <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_350">350dp</dimen>
 
 <!--    sp-->
     <dimen name="sp_20">20sp</dimen>
