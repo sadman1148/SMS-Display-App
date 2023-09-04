@@ -114,15 +114,15 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
                 Log.d(TAG, "READ_SMS permission granted");
                 Utility.requestReceivePermission(this);
                 fetchSMS();
-                if (sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean(Constants.INIT_LAUNCH_KEY, false);
-                    editor.apply();
-                }
             } else {
                 Log.d(TAG, "onRequestPermissionsResult() >> initNoReadPermissionUI()");
                 initNoReadPermissionUI();
                 Log.d(TAG, "READ_SMS permission denied");
+            }
+            if (sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean(Constants.INIT_LAUNCH_KEY, false);
+                editor.apply();
             }
         } else if (requestCode == Constants.RECEIVE_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
             blankImage.setVisibility(View.GONE);
             blankText.setVisibility(View.GONE);
         } else {
+            blankImage.setImageResource(R.drawable.emptybox);
             blankImage.setVisibility(View.VISIBLE);
             blankText.setText(R.string.no_messages);
             blankText.setVisibility(View.VISIBLE);
@@ -224,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
             editor.putBoolean(Constants.ALLOW_READ_CONTACTS_KEY, false);
             editor.apply();
         }
+        Log.d(TAG, "onResume() >> read permissions: " + Utility.checkReadPermission(this) + " isFirstLaunch: " + sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true));
         if (Utility.checkReadPermission(this) && !sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
             handleFetchCall();
         } else {
