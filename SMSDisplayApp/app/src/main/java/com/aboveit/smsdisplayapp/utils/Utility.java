@@ -50,8 +50,11 @@ public class Utility {
     }
 
     public static String getContactName(String phoneNumber, Context context, boolean isSubStringed) {
+        if (isSubStringed && phoneNumber.length() < 11) {
+            return phoneNumber;
+        }
         if (context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE).getBoolean(Constants.ALLOW_READ_CONTACTS_KEY, false)) {
-            if ((int) phoneNumber.charAt(0) == 43) {
+            if ((int) phoneNumber.charAt(0) == 43 || ((int) phoneNumber.charAt(0) > 47 && (int) phoneNumber.charAt(0) < 58)) {
                 Log.d(TAG, "number: " + phoneNumber + " isSubStringed: " + isSubStringed);
                 if (!isSubStringed) {
                     // searches for the number without the country code +88 (Bangladesh)
