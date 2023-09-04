@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
             blankImage.setVisibility(View.GONE);
             blankText.setVisibility(View.GONE);
         } else {
+            blankImage.setImageResource(R.drawable.emptybox);
             blankImage.setVisibility(View.VISIBLE);
             blankText.setText(R.string.no_messages);
             blankText.setVisibility(View.VISIBLE);
