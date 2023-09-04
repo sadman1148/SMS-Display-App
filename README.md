@@ -16,6 +16,7 @@ The **SMS Display App** is a simple text viewer app like your built it SMS app, 
 - Updates UI accordingly to granted permissions
 - Phone number country code handling only for Bangladesh, however with [Libphonenumber](https://mvnrepository.com/artifact/com.googlecode.libphonenumber/libphonenumber/8.7.0) library, all countries can be handled
 - Shows detailed message when an item from the message list is tapped
+- Updates UI based on manual permission changes while keeping the app alive in background
 
 ## Screenshots
 <img src="https://github.com/sadman1148/SMS-Display-App/assets/71433330/759942b4-4cc0-47c4-a22f-3aa38f629252" width="200" alt="SMS List">
