@@ -114,7 +114,13 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
                 Log.d(TAG, "READ_SMS permission granted");
                 Utility.requestReceivePermission(this);
                 fetchSMS();
+                if (sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean(Constants.INIT_LAUNCH_KEY, false);
+                    editor.apply();
+                }
             } else {
+                Log.d(TAG, "onRequestPermissionsResult() >> initNoReadPermissionUI()");
                 initNoReadPermissionUI();
                 Log.d(TAG, "READ_SMS permission denied");
             }
@@ -164,13 +170,14 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
             cursor.close();
             adapter.notifyDataSetChanged();
         }
-        if (adapter.getItemCount() == 0) {
+        Log.d(TAG, "items in adapter: " + adapter.getItemCount());
+        if (adapter.getItemCount() > 0) {
+            blankImage.setVisibility(View.GONE);
+            blankText.setVisibility(View.GONE);
+        } else {
             blankImage.setVisibility(View.VISIBLE);
             blankText.setText(R.string.no_messages);
             blankText.setVisibility(View.VISIBLE);
-        } else {
-            blankImage.setVisibility(View.GONE);
-            blankText.setVisibility(View.GONE);
         }
     }
 
@@ -220,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
         if (Utility.checkReadPermission(this) && !sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
             handleFetchCall();
         } else {
+            Log.d(TAG, "onResume() >> initNoReadPermissionUI()");
             initNoReadPermissionUI();
         }
         if (Utility.checkReceivePermission(this) && !sharedPref.getBoolean(Constants.RECEIVER_REGISTERED_KEY, false)) {
@@ -232,11 +240,6 @@ public class MainActivity extends AppCompatActivity implements ItemClickListerne
     @Override
     protected void onStop() {
         Log.d(TAG, "onStop()");
-        if (sharedPref.getBoolean(Constants.INIT_LAUNCH_KEY, true)) {
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean(Constants.INIT_LAUNCH_KEY, false);
-            editor.apply();
-        }
         if (SMSReceiver != null) {
             this.unregisterReceiver(SMSReceiver);
             SharedPreferences.Editor editor = sharedPref.edit();
